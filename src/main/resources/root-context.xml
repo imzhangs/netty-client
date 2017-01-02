@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+				http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+				http://www.springframework.org/schema/context
+				http://www.springframework.org/schema/context/spring-context-4.2.xsd
+				http://www.springframework.org/schema/tx 
+				http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+	
+	
+	<!-- 通过component-scan 让Spring扫描 base-package 下的所有的类，需要注入容器的代码注解生效 -->
+	<context:component-scan base-package="com.xxx.netty.*"/>
+	
+	 <!-- spring的属性加载器，加载properties文件中的属性 -->
+	 <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		 <property name="ignoreResourceNotFound" value="false" />
+	     <property name="properties" ref="configProperties" />
+	 </bean>
+
+      
+	<bean id="configProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:/config/server-config.properties</value>
+            </list>
+        </property>
+		<property name="fileEncoding" value="utf-8" />
+    </bean>
+	    
+	  
+	<!-- 导入bean实体注入 -->
+	 <import resource="classpath:bean-context.xml"></import>  
+	 
+	
+</beans>
